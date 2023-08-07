@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import * as Yup from "yup";
+import PulsatingCircle from './PulsatingCircle';
 
 const PasswordSchema = Yup.object().shape({
   passwordLength: Yup.number()
@@ -68,7 +69,9 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Text style={{ color: "white" }}>Hello</Text>
-      <StatusBar style="auto" />
+
+      <PulsatingCircle />
+
     </View>
   );
 }
@@ -77,8 +80,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#242B2E',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
 });
 
