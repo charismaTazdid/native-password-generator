@@ -28,7 +28,7 @@ const PulsatingCircle = () => {
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.circle, { transform: [{ scale: scaleValue }] }]}>
-        <Text style={styles.centerText}>hi</Text>
+        <Text style={styles.centerText}>HI</Text>
       </Animated.View>
     </View>
   );
