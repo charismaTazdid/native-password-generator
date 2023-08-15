@@ -1,8 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as Yup from "yup";
-import PulsatingCircle from './PulsatingCircle';
 import { Formik } from 'formik';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
@@ -18,36 +16,62 @@ const App = () => {
   const [password, setPassword] = useState("");
   const [isPasswordGenerated, setIsPasswordGenerated] = useState(false);
 
-  const [lowerCase, setLowerCase] = useState(true);
+  const [lowerCase, setLowerCase] = useState(false);
   const [upperCase, setUpperCase] = useState(false);
   const [numbers, setNumbers] = useState(false);
   const [symbols, setSymbols] = useState(false);
 
 
+  // const generatePasswordString = (passLength) => {
+  //   let characterList = "";
+  //   const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  //   const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
+  //   const specialChars = "!@#$%^&*()_+={}[]|\:";
+  //   const digitChars = "0123456789";
+
+  //   if (upperCase) {
+  //     characterList += upperCase
+  //   }
+  //   if (lowerCase) {
+  //     characterList += lowerCase
+  //   }
+  //   if (numbers) {
+  //     characterList += numbers
+  //   }
+  //   if (symbols) {
+  //     characterList += symbols
+  //   }
+
+  //   const generatedPass = createPassword(characterList, passLength);
+  //   setPassword(generatedPass);
+  //   setIsPasswordGenerated(true)
+  // };
+
   const generatePasswordString = (passLength) => {
-    const characterList = "";
+    let characterList = "";
     const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
-    const specialChars = "!@#$%^&*()_+={}[]|\:";
+    const specialChars = "!@#$%^&*()_+={}[]|:";
     const digitChars = "0123456789";
 
-    if (upperCase) {
-      characterList += upperCase
-    }
     if (lowerCase) {
-      characterList += lowerCase
+      characterList += lowerCaseChars;
+    }
+    if (upperCase) {
+      characterList += upperCaseChars;
     }
     if (numbers) {
-      characterList += numbers
+      characterList += digitChars;
     }
     if (symbols) {
-      characterList += symbols
+      characterList += specialChars;
     }
 
     const generatedPass = createPassword(characterList, passLength);
     setPassword(generatedPass);
-    setIsPasswordGenerated(true)
+    setIsPasswordGenerated(true);
   };
+
 
   const createPassword = (characters, passLength) => {
     let result = "";
@@ -112,21 +136,59 @@ const App = () => {
                   />
                 </View>
 
-                {/* <View style={styles.inputWrapper}> </View> */}
-                {/* <View style={styles.inputWrapper}> </View> */}
-                {/* <View style={styles.inputWrapper}> </View> */}
-                {/* <View style={styles.inputWrapper}> </View> */}
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.heading}>Include Lowercase</Text>
+                  <BouncyCheckbox
+                    disableBuiltInState
+                    isChecked={lowerCase}
+                    onPress={() => setLowerCase(!lowerCase)}
+                    fillColor="#29AB87"
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.heading}>Include Uppercase</Text>
+                  <BouncyCheckbox
+                    disableBuiltInState
+                    isChecked={upperCase}
+                    onPress={() => setUpperCase(!upperCase)}
+                    fillColor="#E6425E"
+                  />
+                </View>
 
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.heading}>Include Numbers</Text>
+                  <BouncyCheckbox
+                    disableBuiltInState
+                    isChecked={numbers}
+                    onPress={() => setNumbers(!numbers)}
+                    fillColor="#51E1ED"
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.heading}>Include Speacial Charecter:</Text>
+                  <BouncyCheckbox
+                    disableBuiltInState
+                    isChecked={symbols}
+                    onPress={() => setSymbols(!symbols)}
+                    fillColor="#120E43"
+                  />
+                </View>
 
 
                 <View style={styles.formActions}>
-                  <TouchableOpacity>
-                    <Text>
-                      Generate Password
-                    </Text>
+                  <TouchableOpacity
+                    disabled={!isValid}
+                    style={styles.primaryBtn}
+                    onPress={handleSubmit}
+                  >
+                    <Text style={styles.primaryBtnTxt}> Generate Password</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity>
-                    <Text>Reset</Text>
+
+                  <TouchableOpacity
+                    style={styles.secondaryBtn}
+                    onPress={() => { handleReset(); resetPassword() }}
+                  >
+                    <Text style={styles.secondaryBtnTxt}>Reset</Text>
                   </TouchableOpacity>
                 </View>
 
@@ -135,12 +197,21 @@ const App = () => {
             )}
           </Formik>
         </View>
+
+        {
+          isPasswordGenerated ? (
+            <View style={[styles.card, styles.cardElevated]}>
+              <Text style={styles.subTitle}> Result:</Text>
+              <Text style={styles.description}> Long Press To Copy</Text>
+              <Text selectable style={styles.generatedPassword}> {password} </Text>
+            </View>
+          )
+            : null
+        }
+
       </SafeAreaView>
 
-      {/* <View style={styles.deleteIt}>
-        <Text style={{ color: "red" }}>I am here. Hello</Text>
-        <PulsatingCircle />
-      </View> */}
+
     </ScrollView>
 
 
