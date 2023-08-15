@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import * as Yup from "yup";
 import PulsatingCircle from './PulsatingCircle';
 import { Formik } from 'formik';
@@ -73,14 +73,74 @@ const App = () => {
     <ScrollView keyboardShouldPersistTaps="handled">
       <SafeAreaView style={styles.appContainer}>
         <View style={styles.formContainer}>
+          <Text style={styles.title}> Password Generator</Text>
 
+          <Formik
+            initialValues={{ passwordLength: "" }}
+            validationSchema={PasswordSchema}
+            onSubmit={(values) => { generatePasswordString(Number(values.passwordLength)) }}
+
+          >
+
+
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleReset,
+              handleSubmit,
+              isSubmitting,
+              isValid
+            }) => (
+              <View>
+                <View style={styles.inputWrapper}>
+                  <View style={styles.inputColumn}>
+                    <Text style={styles.heading}> Password Length:  </Text>
+                    {
+                      touched.passwordLength && errors.passwordLength && (
+                        <Text style={styles.errorText}> {errors.passwordLength} </Text>
+                      )
+                    }
+                  </View>
+                  <TextInput
+                    style={styles.inputStyle}
+                    value={values.passwordLength}
+                    onChangeText={handleChange("passwordLength")}
+                    placeholder={"EX:8"}
+                    keyboardType="numeric"
+                  />
+                </View>
+
+                {/* <View style={styles.inputWrapper}> </View> */}
+                {/* <View style={styles.inputWrapper}> </View> */}
+                {/* <View style={styles.inputWrapper}> </View> */}
+                {/* <View style={styles.inputWrapper}> </View> */}
+
+
+
+                <View style={styles.formActions}>
+                  <TouchableOpacity>
+                    <Text>
+                      Generate Password
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity>
+                    <Text>Reset</Text>
+                  </TouchableOpacity>
+                </View>
+
+
+              </View>
+            )}
+          </Formik>
         </View>
       </SafeAreaView>
 
-      <View style={styles.deleteIt}>
-        <Text style={{ color: "red" }}>I am here</Text>
+      {/* <View style={styles.deleteIt}>
+        <Text style={{ color: "red" }}>I am here. Hello</Text>
         <PulsatingCircle />
-      </View>
+      </View> */}
     </ScrollView>
 
 
