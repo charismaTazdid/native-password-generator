@@ -1,1 +1,1 @@
-# native-password-generator
+# password-generator  (REACT NATIVE)
